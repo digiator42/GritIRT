@@ -1,0 +1,41 @@
+# GritIRT full stack: GritShield backend (SQLite) + Veloasm Tailwind frontend.
+#
+# The frontend build needs the Veloasm framework tree, so its context is the
+# workspace root (see the root .dockerignore allowlist). The backend is
+# self-contained (crates.io deps only).
+#
+#   docker compose up --build
+#   frontend -> http://localhost:8080 (static, nginx)
+#   backend  -> http://localhost:8030 (API + SSE; the page calls it directly,
+#               CORS is open, so no proxy is needed)
+#
+# Knobs: IRT_API_KEY (auth), IRT_DEDUP_WINDOW_MS, IRT_*_URL connectors.
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8030:8030"
+    environment:
+      IRT_BIND: 0.0.0.0
+      IRT_PORT: 8030
+      IRT_DATABASE_URL: "sqlite:///data/grit_irt.db?mode=rwc"
+      IRT_API_KEY: ${IRT_API_KEY:-}
+      IRT_DEDUP_WINDOW_MS: ${IRT_DEDUP_WINDOW_MS:-300000}
+    volumes:
+      - irt-data:/data
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ../..
+      dockerfile: GritIRT/frontend/Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  irt-data:
