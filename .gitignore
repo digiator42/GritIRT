@@ -7,6 +7,9 @@
 *.db-shm
 *.db-wal
 
+# WASM build output (frontend rebuilt by Trunk in CI/containers)
+frontend/dist/
+
 # Env / editor
 .env
 .idea/
