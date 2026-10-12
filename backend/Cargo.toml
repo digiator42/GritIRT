@@ -1,0 +1,22 @@
+[package]
+name = "gritirt-backend"
+version = "0.1.0"
+edition = "2021"
+description = "Incident-response orchestration backend built on GritShield: alert correlation, approval-gated runbook playbooks, timeline and postmortems"
+
+[features]
+default = ["sqlite", "mcp"]
+sqlite = ["gritshield/sqlite"]
+mcp = ["gritshield/mcp"]
+
+[dependencies]
+gritshield = { version = "0.3.1", default-features = false }
+tokio = { version = "1.0", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+async-trait = "0.1"
+sea-orm = { version = "1.1", features = ["runtime-tokio-native-tls", "sqlx-sqlite", "with-chrono"] }
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+
+[profile.release]
+lto = true

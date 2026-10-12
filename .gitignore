@@ -1,0 +1,14 @@
+# Rust
+/target
+**/target
+
+# Local SQLite databases
+*.db
+*.db-shm
+*.db-wal
+
+# Env / editor
+.env
+.idea/
+.vscode/
+*.swp
