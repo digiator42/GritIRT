@@ -1,15 +1,16 @@
-# GritIRT backend image (GritShield incident-response service + SQLite).
+# GritIRT backend image: GritShield (crates.io) incident-response service + SQLite.
+# Build context is this repo (GritIRT/backend).
 FROM rust:1-bookworm AS builder
-WORKDIR /src/backend
-COPY backend/Cargo.toml backend/Cargo.lock* ./
-COPY backend/src ./src
+WORKDIR /src
+COPY Cargo.toml Cargo.lock ./
+COPY src ./src
 RUN cargo build --release
 
 FROM debian:bookworm-slim
 RUN apt-get update \
     && apt-get install -y --no-install-recommends ca-certificates libssl3 curl \
     && rm -rf /var/lib/apt/lists/*
-COPY --from=builder /src/backend/target/release/gritirt-backend /usr/local/bin/gritirt-backend
+COPY --from=builder /src/target/release/gritirt-backend /usr/local/bin/gritirt-backend
 ENV IRT_BIND=0.0.0.0 \
     IRT_PORT=8030 \
     IRT_DATABASE_URL="sqlite:///data/grit_irt.db?mode=rwc"

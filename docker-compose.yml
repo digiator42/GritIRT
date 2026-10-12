@@ -1,9 +1,5 @@
 # GritIRT full stack: GritShield backend (SQLite) + Veloasm Tailwind frontend.
 #
-# The frontend build needs the Veloasm framework tree, so its context is the
-# workspace root (see the root .dockerignore allowlist). The backend is
-# self-contained (crates.io deps only).
-#
 #   docker compose up --build
 #   frontend -> http://localhost:8080 (static, nginx)
 #   backend  -> http://localhost:8030 (API + SSE; the page calls it directly,
@@ -28,8 +24,7 @@ services:
 
   frontend:
     build:
-      context: ../..
-      dockerfile: GritIRT/frontend/Dockerfile
+      context: ./frontend
     ports:
       - "8080:80"
     depends_on:
