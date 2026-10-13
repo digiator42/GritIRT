@@ -72,6 +72,15 @@ async fn main() {
             },
         );
     }
+    if let Ok(base) = std::env::var("IRT_GRITSCAN_URL") {
+        connectors.insert(
+            "gritscan".to_string(),
+            Connector {
+                base_url: base,
+                api_key: std::env::var("IRT_GRITSCAN_API_KEY").ok(),
+            },
+        );
+    }
 
     let api_key = std::env::var("IRT_API_KEY").ok().filter(|k| !k.is_empty());
     let dedup_window_ms = std::env::var("IRT_DEDUP_WINDOW_MS")

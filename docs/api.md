@@ -419,6 +419,7 @@ incident's alerts and response timeline.
 | `IRT_LUXSHIELD_URL` | unset | Enables `luxshield` connector. |
 | `IRT_CYBERFLOW_URL` | unset | Enables `cyberflow` connector. |
 | `IRT_ACC_URL` | unset | Enables `acc` connector. |
+| `IRT_GRITSCAN_URL` | unset | Enables `gritscan` connector. |
 | `IRT_<NAME>_API_KEY` | unset | Forwarded as `X-API-Key` on that connector's MCP calls. |
 
 ---
